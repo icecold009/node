@@ -126,6 +126,14 @@ tmpdir.refresh();
     const file = tmpdir.resolve(`testWriteFileSyncEncoding_${encoding}.txt`);
     fs.writeFileSync(file, utf8Data, { encoding });
     assert.strictEqual(fs.readFileSync(file, 'utf8'), utf8Data);
+
+    const fd = fs.openSync(file, 'w');
+    try {
+      fs.writeFileSync(fd, utf8Data, { encoding });
+    } finally {
+      fs.closeSync(fd);
+    }
+    assert.strictEqual(fs.readFileSync(file, 'utf8'), utf8Data);
   }
 }
 

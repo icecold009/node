@@ -33,6 +33,16 @@ describe('fs.readFileSync utf8 simdutf dispatch', () => {
     const p = writeFile('encoding-aliases.txt', buf);
     for (const encoding of ['utf8', 'utf-8', 'UTF8', 'UTF-8']) {
       assert.strictEqual(fs.readFileSync(p, encoding), buf.toString('utf8'));
+
+      const fd = fs.openSync(p, 'r');
+      try {
+        assert.strictEqual(
+          fs.readFileSync(fd, { encoding }),
+          buf.toString('utf8'),
+        );
+      } finally {
+        fs.closeSync(fd);
+      }
     }
   });
 
