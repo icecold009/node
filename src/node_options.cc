@@ -1621,6 +1621,11 @@ PerProcessOptionsParser::PerProcessOptionsParser(
             "the process title to use on startup",
             &PerProcessOptions::title,
             kAllowedInEnvvar);
+  AddOption("--reset-stdio",
+            "restore stdio state on exit",
+            BOOL_FIELD(reset_stdio),
+            kAllowedInEnvvar,
+            true);
   AddOption("--trace-event-categories",
             "comma separated list of trace event categories to record",
             &PerProcessOptions::trace_event_categories,
